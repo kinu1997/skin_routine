@@ -49,22 +49,15 @@ class _RoutineScreenState extends State<RoutineScreen> {
         SnackBar(content: Text("Video recorded for ${skincareSteps[index]['title']}")),
       );
 
-      setState(() {});
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("No video recorded.")),
-      );
-    }
-  }
-
-  void _markStepCompleted(int index) async {
-    if (videoRecordedSteps[index]) {
       setState(() {
+        // Mark the step as completed after video recording
         completedSteps[index] = true;
       });
 
+      // Save the updated routine state to persist the changes
       await StorageHelper.saveRoutine(completedSteps);
 
+      // Optionally, increase the streak if all steps are completed
       if (completedSteps.every((step) => step)) {
         await StorageHelper.increaseStreak();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -73,10 +66,14 @@ class _RoutineScreenState extends State<RoutineScreen> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please record the video before marking the step as completed.")),
+        SnackBar(content: Text("No video recorded.")),
       );
     }
   }
+
+
+
+
 
   @override
   void initState() {
@@ -110,9 +107,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
           return ListTile(
             leading: Checkbox(
               value: completedSteps[index],
-              onChanged: (_) {
-                _markStepCompleted(index);
-              },
+                onChanged: null,
             ),
             title: Text(skincareSteps[index]['title'], style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(skincareSteps[index]['subtitle']),

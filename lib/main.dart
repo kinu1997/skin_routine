@@ -44,11 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-          index: _selectedIndex,  // Display the current screen based on the index
-          children: _screens,
-      ),
-          // child: _screens[_selectedIndex]),
+      body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Routine'),
